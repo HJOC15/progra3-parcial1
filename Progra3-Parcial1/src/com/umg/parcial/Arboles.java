@@ -2,11 +2,11 @@ package com.umg.parcial;
 import java.util.Scanner;
 
 public class Arboles {
-	
+
 	public static void main (String[] args) {
 		Scanner sc = new Scanner(System.in);
 		ArbolBinario bt = new ArbolBinario();
-		
+
 		int opcion = 0;
 		System.out.println("1. MOSTRAR");
 		System.out.println("2. GUARDAR");
@@ -21,17 +21,17 @@ public class Arboles {
 				//Invocar método mostrar
 				bt.agregar(sc);
 			}
-			
+
 		}while(opcion>0);
 		System.out.println("FIN");
-		
+
 	}
 
 }
 
 class ArbolBinario {
 	Nodo raiz;
-	
+
 	public ArbolBinario() {
 		Nodo nodo2 = new Nodo(2,null,null);
 		Nodo nodo5 = new Nodo(5,null,null);
@@ -42,25 +42,54 @@ class ArbolBinario {
 		raiz = new Nodo(6,nodo4,nodo8);
 	}
 
-	
+	private Nodo agregarnuevo(Nodo nodoActual, int value) {
+
+		if (null == nodoActual) {
+			return new Nodo(value);
+		}
+
+		if (value < nodoActual.value) {
+			nodoActual.izq = agregarnuevo(nodoActual.izq, value);
+		} else if (value > nodoActual.value) {
+			nodoActual.der = agregarnuevo(nodoActual.der, value);
+		} else {
+			return nodoActual;
+		}
+
+		return nodoActual;
+
+	}
+
+	public void anadir(int value) {
+		raiz = agregarnuevo(raiz, value);
+	}
 
 	public void agregar(Scanner sc) {
 		System.out.println("INGRESE VALOR");
-		//escriba codigo para ingresar
+
+		anadir(sc.nextInt());
 	}
-	
-	
-	
+
+
+
+	public void orden(Nodo node) {
+		if (node != null) {
+			orden(node.izq);
+			orden(node.der);
+			System.out.println(node.value);
+		}
+	}
+
 	public void mostrar() {
-		//escriba codigo para mostrar
+		orden(raiz);
 	}
 }
 
 class Nodo{
 	//NO MODIFICAR
 	int value;
-	private Nodo izq;
-	private Nodo der;
+	public Nodo izq;
+	public Nodo der;
 	public Nodo(int value, Nodo izq, Nodo der) {
 		this.value = value;
 		this.izq = izq;
@@ -76,18 +105,18 @@ class Nodo{
 	public void setValue(int value) {
 		this.value = value;
 	}
-	public Nodo getIzq() {		
+	public Nodo getIzq() {
 		return izq;
 	}
 	public void setIzq(Nodo izq) {
 		this.izq = izq;
 	}
 	public Nodo getDer() {
-		
+
 		return der;
 	}
-	public void setDer(Nodo der) {		
+	public void setDer(Nodo der) {
 		this.der = der;
 	}
-	
+
 }
